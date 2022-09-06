@@ -10,7 +10,7 @@ Since the data from Divvy are anonymous, we have created fake rider and account 
 
 The goal of this project is to develop a data warehouse solution using Azure Synapse Analytics. You will:
 
-Design a star schema based on the business outcomes listed below;
+### Design a star schema based on the business outcomes listed below;
 * Import the data into Synapse;
 * Transform the data into the star schema;
 * and finally, view the reports from Analytics.
@@ -68,9 +68,10 @@ and you should be able to see the data you just loaded to the database.
 
 
 ## Task 1: Create your Azure resources
-Create an Azure PostgreSQL database
-Create an Azure Synapse workspace
-Create a Dedicated SQL Pool and database within the Synapse workspace
+* Create an Azure PostgreSQL database
+* Create an Azure Synapse workspace
+* Create a Dedicated SQL Pool and database within the Synapse workspace
+
 Note that if you've previously created a Synapse Workspace, you do not need to create a second one specifically for the project.
 
 ## Task 2: Design a star schema
@@ -79,10 +80,11 @@ You are being provided a relational schema that describes the data as it exists 
 ## Task 3: Create the data in PostgreSQL
 To prepare your environment for this project, you first must create the data in PostgreSQL. This will simulate the production environment where the data is being used in the OLTP system. This can be done using the Python script provided for you in Github: ProjectDataToPostgres.py
 
-Download the script file and place it in a folder where you can run a Python script
-Download the data files from the classroom resources
-Open the script file in VS Code and add the host, username, and password information for your PostgreSQL database
-Run the script and verify that all four data files are copied/uploaded into PostgreSQL
+* Download the script file and place it in a folder where you can run a Python script
+* Download the data files from the classroom resources
+* Open the script file in VS Code and add the host, username, and password information for your PostgreSQL database
+* Run the script and verify that all four data files are copied/uploaded into PostgreSQL
+
 You can verify this data exists by using pgAdmin or a similar PostgreSQL data tool.
 
 ## Task 4: EXTRACT the data from PostgreSQL
