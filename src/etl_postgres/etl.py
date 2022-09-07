@@ -1,88 +1,96 @@
+import string
+import psycopg2 as pg
+import yaml
+from pathlib import Path
+import os
+import pandas as pd
+import configparser
+from config import *
+
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
-########################################
-# Update connection string information #
-########################################
-host = "<<host>>"
-user = "<<user>>"
-password = "<<password>>"
 
-# Create a new DB
-sslmode = "require"
-dbname = "postgres"
-conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
-conn = psycopg2.connect(conn_string)
-conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT);
-print("Connection established")
+def load_config() -> list:
+    with open(schema_path) as schema_file:
+        config = yaml.load(schema_file)
+    return config
 
-cursor = conn.cursor()
-cursor.execute('DROP DATABASE IF EXISTS udacityproject')
-cursor.execute("CREATE DATABASE udacityproject")
-# Clean up initial connection
-conn.commit()
-cursor.close()
-conn.close()
+def create_tables(config: list, connection: pg.extensions.connection):
+    cur = connection.cursor()
+    for table in config:
+        name = table.get('name')
+        schema = table.get('schema')
+        ddl = f"""CREATE TABLE IF NOT EXISTS {name} ({schema})"""
+        cur.execute(ddl)
+        print("""Created {} table.""".format(name))
 
-# Reconnect to the new DB
-dbname = "udacityproject"
-conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
-conn = psycopg2.connect(conn_string)
-print("Connection established")
-cursor = conn.cursor()
+    connection.commit()
+    print("""Commited all creations.""")
 
-# Helper functions
-def drop_recreate(c, tablename, create):
-    c.execute("DROP TABLE IF EXISTS {0};".format(tablename))
-    c.execute(create)
-    print("Finished creating table {0}".format(tablename))
+def load_tables(
+    config: list, connection: pg.extensions.connection, prefix: str=None
+):
+    # Iterate and load
+    cur = connection.cursor()
+    for table in config:
+        table_name = table.get('name')
+        table_name_csv = table_name if not prefix else prefix + table_name
+        table_source = data_path.joinpath(f"{table_name_csv}.csv")
+        print("""Started to load {} data to db from {}.""".format(table_name, table_source))
+        with open(table_source, 'r', encoding='utf-8') as f:
+            next(f)
+            cur.copy_expert(f"COPY {table_name} FROM STDIN CSV NULL AS ''", f)
+        connection.commit()
+        print("""Completed loading {} table.""".format(table_name))
 
-def populate_table(c, filename, tablename):
-    f = open(filename, 'r')
-    try:
-        cursor.copy_from(f, tablename, sep=",", null = "")
-        conn.commit()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print("Error: %s" % error)
-        conn.rollback()
-        cursor.close()
-    print("Finished populating {0}".format(tablename))
+def create_database(database_name: string, connection: pg.extensions.connection):
+    print("""Creating database: {}.""".format(database_name))
+    # establish connection
+    cursor = connection.cursor()
+    # drop old db if it exists and create new one
+    cursor.execute(f'DROP DATABASE IF EXISTS {database_name}')
+    cursor.execute(f"CREATE DATABASE {database_name}")
+    print("""Created database: {}.""".format(database_name))
+    # clean up
+    connection.commit()
+    cursor.close()
+    connection.close()
+    print("""Close connection """)
 
-# Create Rider table
-table = "rider"
-filename = './data/riders.csv'
-create = "CREATE TABLE rider (rider_id INTEGER PRIMARY KEY, first VARCHAR(50), last VARCHAR(50), address VARCHAR(100), birthday DATE, account_start_date DATE, account_end_date DATE, is_member BOOLEAN);"
+def set_up(default_dbname = "postgres"):
+    # DB connection
+    print("""Setup started.""")
+    print("""Establishing connection to postgres {} listening on {}, port {} with user name: {}.""".format(default_dbname, host, port, user))
+    connection = pg.connect(
+        host=host,
+        port=port,
+        dbname=default_dbname,
+        user=user
+    )
+    create_database(database_name=dbname, connection=connection)
+    print("""Setup completed""")
 
-drop_recreate(cursor, table, create)
-populate_table(cursor, filename, table)
+def etl():
+    # DB connection
+    print("""ETL started.""")
+    print("""Establishing connection to database {} listening on {}, port {} with user name: {}.""".format(dbname, host, port, user))
+    connection = pg.connect(
+        host=host,
+        port=port,
+        dbname=dbname,
+        user=user
+    )
+    print("""Successfully created db connection.""")
+    # Table creation and data insertion
+    csv_prefix = 'rev-'
+    config = load_config()
+    create_tables(config=config, connection=connection)
+    load_tables(config=config, connection=connection, prefix=csv_prefix)
+    print("""ETL completed.""")
 
-# Create Payment table
-table = "payment"
-filename = './data/payments.csv'
-create = "CREATE TABLE payment (payment_id INTEGER PRIMARY KEY, date DATE, amount MONEY, rider_id INTEGER);"
+if __name__ == '__main__':
+    set_up()
+    etl()
 
-drop_recreate(cursor, table, create)
-populate_table(cursor, filename, table)
 
-# Create Station table
-table = "station"
-filename = './data/stations.csv'
-create = "CREATE TABLE station (station_id VARCHAR(50) PRIMARY KEY, name VARCHAR(75), latitude FLOAT, longitude FLOAT);"
-
-drop_recreate(cursor, table, create)
-populate_table(cursor, filename, table)
-
-# Create Trip table
-table = "trip"
-filename = './data/trips.csv'
-create = "CREATE TABLE trip (trip_id VARCHAR(50) PRIMARY KEY, rideable_type VARCHAR(75), start_at TIMESTAMP, ended_at TIMESTAMP, start_station_id VARCHAR(50), end_station_id VARCHAR(50), rider_id INTEGER);"
-
-drop_recreate(cursor, table, create)
-populate_table(cursor, filename, table)
-
-# Clean up
-conn.commit()
-cursor.close()
-conn.close()
-
-print("All done!")
