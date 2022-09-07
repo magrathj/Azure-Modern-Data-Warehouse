@@ -6,16 +6,10 @@ os.environ['HOME'] = ""
 #Set path
 schema_path = Path(
         os.environ['HOME'],
-        #'Documents',
-        #'Challenge - Data Scientist - Product',
-        'misc',
+        'src',
+        'schemas',
+        'synapse',
         'schemas.yaml'
-    )
-data_path =  Path(
-        os.environ['HOME'],
-        #'Documents',
-        #'Challenge - Data Scientist - Product',
-        'data'
     )
 
 #Set db variables
