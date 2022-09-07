@@ -29,6 +29,18 @@ def create_tables(config: list, connection: pg.extensions.connection):
     print("""Commited all creations.""")
 
 def unzip_files(config: list, prefix: str=None):
+    # import csv
+    # from io import TextIOWrapper
+    # from zipfile import ZipFile
+
+    # zf = zipfile.ZipFile('./data/riders.zip') 
+    # with zf.open('riders.csv', 'r', encoding='utf-8') as infile:
+    #     reader = csv.reader(TextIOWrapper(infile, 'utf-8'))
+    #     for row in reader:
+    #         # process the CSV here
+    #         print(row)
+
+
     ## Extract CSVs from Zip files
     for table in config:
         table_name = table.get('name')

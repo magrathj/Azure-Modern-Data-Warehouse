@@ -112,28 +112,25 @@ and you should be able to see the data you just loaded to the database.
 * Create an Azure Synapse workspace
 * Create a Dedicated SQL Pool and database within the Synapse workspace
 
-Note that if you've previously created a Synapse Workspace, you do not need to create a second one specifically for the project.
-
 ## Task 2: Design a star schema
 You are being provided a relational schema that describes the data as it exists in PostgreSQL. In addition, you have been given a set of business requirements related to the data warehouse. You are being asked to design a star schema using fact and dimension tables.
 
 ![Star Schema](/images/star_schema_design.png)
 
 ## Task 3: Create the data in PostgreSQL
-To prepare your environment for this project, you first must create the data in PostgreSQL. This will simulate the production environment where the data is being used in the OLTP system. This can be done using the Python script provided for you in Github: ProjectDataToPostgres.py
+To prepare your environment for this project, you first must create the data in PostgreSQL. This will simulate the production environment where the data is being used in the OLTP system. 
 
-* Download the script file and place it in a folder where you can run a Python script
-* Download the data files from the classroom resources
-* Open the script file in VS Code and add the host, username, and password information for your PostgreSQL database
-* Run the script and verify that all four data files are copied/uploaded into PostgreSQL
 
-You can verify this data exists by using pgAdmin or a similar PostgreSQL data tool.
 
 ## Task 4: EXTRACT the data from PostgreSQL
 In your Azure Synapse workspace, you will use the ingest wizard to create a one-time pipeline that ingests the data from PostgreSQL into Azure Blob Storage. This will result in all four tables being represented as text files in Blob Storage, ready for loading into the data warehouse.
 
+[Azure Example](https://docs.microsoft.com/en-us/azure/data-factory/load-azure-sql-data-warehouse?tabs=data-factory)
+
 ## Task 5: LOAD the data into external tables in the data warehouse
 Once in Blob storage, the files will be shown in the data lake node in the Synapse Workspace. From here, you can use the script generating function to load the data from blob storage into external staging tables in the data warehouse you created using the Dedicated SQL Pool.
+
+
 
 ## Task 6: TRANSFORM the data to the star schema
 You will write SQL scripts to transform the data from the staging tables to the final star schema you designed.
