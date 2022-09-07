@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import configparser
 from config import *
-
+import zipfile
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
@@ -27,6 +27,16 @@ def create_tables(config: list, connection: pg.extensions.connection):
 
     connection.commit()
     print("""Commited all creations.""")
+
+def unzip_files(config: list, prefix: str=None):
+    ## Extract CSVs from Zip files
+    for table in config:
+        table_name = table.get('name')
+        table_name_zip = table_name if not prefix else prefix + table_name
+        table_source = data_path.joinpath(f"{table_name_zip}.zip")
+        print("""Started to unzip {} data from {}.""".format(table_name, table_source))
+        with zipfile.ZipFile(table_source, 'r') as zip_ref:
+            zip_ref.extractall(data_path)
 
 def load_tables(
     config: list, connection: pg.extensions.connection, prefix: str=None
@@ -85,6 +95,7 @@ def etl():
     # Table creation and data insertion
     csv_prefix = 'rev-'
     config = load_config()
+    unzip_files(config=config, prefix=csv_prefix)
     create_tables(config=config, connection=connection)
     load_tables(config=config, connection=connection, prefix=csv_prefix)
     print("""ETL completed.""")
