@@ -63,10 +63,46 @@ Once installed, open Postico and:
 and you should be able to see the data you just loaded to the database.
 
 ## Data
-1. devices.csv
-	- a table of associated devices
-	- **brand**: string corresponding to the phone brand
-	- **user_id**: string uniquely identifying the user
+
+- name: rider.csv
+  schema: |
+    rider_id int primary key not null,
+    address varchar(255),
+    first varchar(255),
+    last varchar(255),
+    birthday date,
+    account_number int foreign key not null
+
+- name: account.csv
+  schema: |
+    account_number int primary key not null,
+    member bool,
+    start_date date,
+    end_date date
+
+- name: payment.csv
+  schema: |
+    payment_id int primary key not null,
+    date date,
+    amount decimal, 
+    account_number int foreign key not null
+
+- name: trip.csv
+  schema: |
+    trip_id int primary key not null,
+    rideable_type string, 
+    started_at datetime,
+    ended_at datetime,
+    start_station_id int foreign key not null, 
+    end_station_id int foreign key not null, 
+    member_id int foreign key not null
+
+- name: station.csv
+  schema: |
+    station_id int primary key not null,
+    name string,
+    longitude float,
+    latitude float
 
 
 ## Task 1: Create your Azure resources
