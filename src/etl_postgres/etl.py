@@ -13,7 +13,7 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 def load_config() -> list:
     with open(schema_path) as schema_file:
-        config = yaml.load(schema_file)
+        config = yaml.safe_load(schema_file)
     return config
 
 def create_tables(config: list, connection: pg.extensions.connection):
@@ -29,17 +29,6 @@ def create_tables(config: list, connection: pg.extensions.connection):
     print("""Commited all creations.""")
 
 def unzip_files(config: list, prefix: str=None):
-    # import csv
-    # from io import TextIOWrapper
-    # from zipfile import ZipFile
-
-    # zf = zipfile.ZipFile('./data/riders.zip') 
-    # with zf.open('riders.csv', 'r', encoding='utf-8') as infile:
-    #     reader = csv.reader(TextIOWrapper(infile, 'utf-8'))
-    #     for row in reader:
-    #         # process the CSV here
-    #         print(row)
-
 
     ## Extract CSVs from Zip files
     for table in config:
@@ -68,6 +57,7 @@ def load_tables(
 
 def create_database(database_name: string, connection: pg.extensions.connection):
     print("""Creating database: {}.""".format(database_name))
+    connection.autocommit = True
     # establish connection
     cursor = connection.cursor()
     # drop old db if it exists and create new one
@@ -88,7 +78,9 @@ def set_up(default_dbname = "postgres"):
         host=host,
         port=port,
         dbname=default_dbname,
-        user=user
+        user=user,
+        password=password,
+        sslmode='require'       
     )
     create_database(database_name=dbname, connection=connection)
     print("""Setup completed""")
@@ -101,19 +93,32 @@ def etl():
         host=host,
         port=port,
         dbname=dbname,
-        user=user
+        user=user,
+        password=password,
+        sslmode='require'
     )
     print("""Successfully created db connection.""")
     # Table creation and data insertion
-    csv_prefix = 'rev-'
     config = load_config()
-    unzip_files(config=config, prefix=csv_prefix)
+    unzip_files(config=config)
     create_tables(config=config, connection=connection)
-    load_tables(config=config, connection=connection, prefix=csv_prefix)
+    load_tables(config=config, connection=connection)
     print("""ETL completed.""")
+
+
+def clean_up():
+    # remove csvs from directory
+    config = load_config()    
+    ## remove each csv file
+    for table in config:
+        table_name = table.get('name')
+        file_name = data_path.joinpath(f"{table_name}.csv")
+        os.remove(file_name)
+    print("""Cleanup completed.""")
 
 if __name__ == '__main__':
     set_up()
     etl()
+    clean_up()
 
 

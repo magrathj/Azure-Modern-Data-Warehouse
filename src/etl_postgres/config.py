@@ -17,7 +17,8 @@ data_path =  Path(
     )
 
 #Set db variables
-host='localhost'
-port=54320
-dbname='ht_db'
-user='postgres'
+host='[HOSTNAME].postgres.database.azure.com'
+port=5432
+dbname='[NEW_DATABASE_NAME]'
+user='[USER_NAME]@udacity-postgres'
+password = "[PASSWORD]"

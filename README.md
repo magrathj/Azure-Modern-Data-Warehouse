@@ -106,6 +106,26 @@ To prepare your environment for this project, you first must create the data in 
 
 ***Run the ETL setup script to import data into Azure Postgres***
 
+
+Create virtual env
+
+```bash
+    python -m venv venv
+```
+
+Activate virtual env 
+
+```bash
+    venv/Scripts/activate
+```
+
+Install required packages
+
+```bash
+  pip install -r requirement.txt    
+```
+
+Run ETL script to set up Postgres Database 
 ```bash
   python src/etl_postgres/etl.py
 ```
