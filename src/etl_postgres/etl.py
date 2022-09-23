@@ -16,7 +16,9 @@ def load_config() -> list:
         config = yaml.safe_load(schema_file)
     return config
 
-def create_tables(config: list, connection: pg.extensions.connection):
+def create_tables(
+    config: list, connection: pg.extensions.connection
+):
     cur = connection.cursor()
     for table in config:
         name = table.get('name')
@@ -28,8 +30,9 @@ def create_tables(config: list, connection: pg.extensions.connection):
     connection.commit()
     print("""Commited all creations.""")
 
-def unzip_files(config: list, prefix: str=None):
-
+def unzip_files(
+    config: list, prefix: str=None
+):
     ## Extract CSVs from Zip files
     for table in config:
         table_name = table.get('name')
@@ -55,7 +58,9 @@ def load_tables(
         connection.commit()
         print("""Completed loading {} table.""".format(table_name))
 
-def create_database(database_name: string, connection: pg.extensions.connection):
+def create_database(
+    database_name: string, connection: pg.extensions.connection
+):
     print("""Creating database: {}.""".format(database_name))
     connection.autocommit = True
     # establish connection
