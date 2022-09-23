@@ -1,0 +1,50 @@
+
+- name: rider
+  size: small
+  columns: ['rider_id', 'address', 'first', 'last', 'birthday', 'account_number']
+  schema: |
+    rider_id int primary key not null,
+    address varchar(255),
+    first varchar(255),
+    last varchar(255),
+    birthday date,
+    account_number int foreign key not null
+
+- name: account
+  size: small
+  columns: ['account_number', 'member', 'start_date', 'end_date']
+  schema: |
+    account_number int primary key not null,
+    member bool,
+    start_date date,
+    end_date date
+
+- name: payment
+  size: small
+  columns: ['payment_id', 'date', 'amount', 'account_number']
+  schema: |
+    payment_id int primary key not null,
+    date date,
+    amount decimal, 
+    account_number int foreign key not null
+
+- name: trip
+  size: medium
+  columns: ['trip_id', 'rideable_type', 'started_at', 'ended_at', 'start_station_id', 'end_station_id', 'member_id']
+  schema: |
+    trip_id int primary key not null,
+    rideable_type string, 
+    started_at datetime,
+    ended_at datetime,
+    start_station_id int foreign key not null, 
+    end_station_id int foreign key not null, 
+    member_id int foreign key not null
+
+- name: station
+  size: small
+  columns: ['station_id', 'name', 'longitude', 'latitude']
+  schema: |
+    station_id int primary key not null,
+    name string,
+    longitude float,
+    latitude float
