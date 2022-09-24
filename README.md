@@ -166,3 +166,29 @@ Transform the data into the Star schema
 ```bash
   python src/etl_synapse/etl.py
 ```
+
+## Analysis: Extras
+* Based on how many rides the rider averages per month
+
+
+```sql
+  SELECT SUM(t.trip_counter), 
+  t.user_id, 
+  d.month
+  FROM [star].[Trip] t
+  JOIN [star].[Date] d
+  ON t.start_at_date_id = d.date_id
+  GROUP BY t.user_id, d.month
+```
+
+* Based on how many minutes the rider spends on a bike per month
+
+```sql
+  SELECT SUM(t.total_trip_time_seconds)/60, 
+  t.user_id, 
+  d.month
+  FROM [star].[Trip] t
+  JOIN [star].[Date] d
+  ON t.start_at_date_id = d.date_id
+  GROUP BY t.user_id, d.month
+```
