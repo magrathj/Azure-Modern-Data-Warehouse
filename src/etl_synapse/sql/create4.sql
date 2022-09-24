@@ -1,9 +1,6 @@
--- DROP TABLE Star.TripDetails;
--- FOREIGN KEY constraint is not supported in dedicated SQL pool.
-
 CREATE TABLE Star.TripDetails (
-    trip_details_id INT PRIMARY KEY NONCLUSTERED NOT ENFORCED,
-    trip_id INT NOT NULL,
+    trip_details_id INT IDENTITY(1,1) PRIMARY KEY NONCLUSTERED NOT ENFORCED,
+    trip_id VARCHAR(100) NOT NULL,
     user_id INT NOT NULL,
     address VARCHAR(100) ,
     first_name VARCHAR(100), 

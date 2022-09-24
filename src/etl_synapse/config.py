@@ -18,6 +18,14 @@ create_scripts_config = [
     'sql/create4.sql',
     'sql/create5.sql'
 ]
+drop_scripts_config = [
+    'sql/drop1.sql',
+    'sql/drop2.sql',
+    'sql/drop3.sql',
+    'sql/drop4.sql',
+    'sql/drop5.sql',
+    'sql/drop0.sql'
+]
 
 load_scripts_config = [
     'sql/load1.sql',
@@ -29,7 +37,7 @@ load_scripts_config = [
 
 #Set db variables
 driver='{ODBC Driver 17 for SQL Server}'
-server='[].sql.azuresynapse.net'
-dbname=''
-user=''
-password=''
+server='[HOSTNAME].sql.azuresynapse.net'
+dbname='[DATABASE_NAME]'
+user='[USER_NAME]'
+password='[PASSWORD]'

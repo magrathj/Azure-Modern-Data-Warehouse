@@ -1,5 +1,3 @@
--- DROP TABLE Star.Date;
--- FOREIGN KEY constraint is not supported in dedicated SQL pool.
 CREATE TABLE Star.Date (
     date_id INT UNIQUE NOT ENFORCED,
     day INT NOT NULL,

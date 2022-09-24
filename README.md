@@ -161,3 +161,8 @@ Once in Blob storage, the files will be shown in the data lake node in the Synap
 ## Task 6: TRANSFORM the data to the star schema
 You will write SQL scripts to transform the data from the staging tables to the final star schema you designed.
 
+
+Transform the data into the Star schema
+```bash
+  python src/etl_synapse/etl.py
+```
