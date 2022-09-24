@@ -35,7 +35,7 @@ variable "data_lake_name" {
 # synapse workspace
 variable "synapse_workspace_name" {
   description = "name of postgres database to be created"
-  default     = "udacity"
+  default     = "udacityproject"
 }
 
 variable "synapse_sql_administrator_login" {

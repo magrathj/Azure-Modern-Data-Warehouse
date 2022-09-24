@@ -3,17 +3,32 @@ from pathlib import Path
 
 os.environ['HOME'] = ""
     
-#Set path
-schema_path = Path(
+
+script_path =  Path(
         os.environ['HOME'],
         'src',
-        'schemas',
-        'synapse',
-        'schemas.yaml'
+        'etl_synapse'
     )
 
+create_scripts_config = [
+    'sql/create1.sql',
+    'sql/create2.sql',
+    'sql/create3.sql',
+    'sql/create4.sql',
+    'sql/create5.sql'
+]
+
+load_scripts_config = [
+    'sql/load1.sql',
+    'sql/load2.sql',
+    'sql/load3.sql',
+    'sql/load4.sql',
+    'sql/load5.sql'
+]
+
 #Set db variables
-host='localhost'
-port=54320
-dbname='ht_db'
-user='postgres'
+driver='{ODBC Driver 17 for SQL Server}'
+server='[].sql.azuresynapse.net'
+dbname=''
+user=''
+password=''

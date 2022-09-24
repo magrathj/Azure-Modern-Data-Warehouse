@@ -125,27 +125,37 @@ Install required packages
   pip install -r requirement.txt    
 ```
 
+Allow access to the database
+
+![Firewall](/images/postgres_firewall.png)
+
 Run ETL script to set up Postgres Database 
 ```bash
   python src/etl_postgres/etl.py
 ```
+
+Verify Postgres Database is populated
+```bash
+  python src/etl_postgres/test.py
+```
+
 
 ## Task 4: EXTRACT the data from PostgreSQL
 In your Azure Synapse workspace, you will use the ingest wizard to create a one-time pipeline that ingests the data from PostgreSQL into Azure Blob Storage. This will result in all four tables being represented as text files in Blob Storage, ready for loading into the data warehouse.
 
 ![Copy1](/images/copy_data.png)
 
-![Copy2](/images/copy_data2.png)
+![staging](/images/staging_data.png)
 
-[Azure Example](https://docs.microsoft.com/en-us/azure/data-factory/load-azure-sql-data-warehouse?tabs=data-factory)
 
 ## Task 5: LOAD the data into external tables in the data warehouse
 Once in Blob storage, the files will be shown in the data lake node in the Synapse Workspace. From here, you can use the script generating function to load the data from blob storage into external staging tables in the data warehouse you created using the Dedicated SQL Pool.
 
 
-![Copy1](/images/copy_data.png)
+![CopyAndLoad](/images/copy_and_load.png)
 
-![Copy2](/images/copy_data2.png)
+![Data](/images/loaded_staging_tables.png)
+
 
 
 ## Task 6: TRANSFORM the data to the star schema
