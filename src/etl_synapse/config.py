@@ -11,6 +11,7 @@ script_path =  Path(
     )
 
 create_scripts_config = [
+    'sql/create0.sql',
     'sql/create1.sql',
     'sql/create2.sql',
     'sql/create3.sql',
