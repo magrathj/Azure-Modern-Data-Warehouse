@@ -145,14 +145,18 @@ In your Azure Synapse workspace, you will use the ingest wizard to create a one-
 
 ![Copy1](/images/copy_data.png)
 
-![staging](/images/staging_data.png)
 
+
+![staging](/images/files_staged.png)
 
 ## Task 5: LOAD the data into external tables in the data warehouse
 Once in Blob storage, the files will be shown in the data lake node in the Synapse Workspace. From here, you can use the script generating function to load the data from blob storage into external staging tables in the data warehouse you created using the Dedicated SQL Pool.
 
 
-![CopyAndLoad](/images/copy_and_load.png)
+***Scripts to create external staging tables***
+```
+  /src/etl_synapse/sql/create_external*.sql
+```
 
 ![Data](/images/loaded_staging_tables.png)
 
