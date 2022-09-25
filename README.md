@@ -158,7 +158,7 @@ Once in Blob storage, the files will be shown in the data lake node in the Synap
   /src/etl_synapse/sql/create_external*.sql
 ```
 
-![Data](/images/loaded_staging_tables.png)
+![Data](/images/external_tables.png)
 
 
 
