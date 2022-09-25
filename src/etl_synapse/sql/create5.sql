@@ -1,6 +1,6 @@
-CREATE TABLE Star.Payment (
-    payment_id INT PRIMARY KEY NONCLUSTERED NOT ENFORCED,
-    user_id INT NOT NULL,
-    payment_date_id INT NOT NULL,
-    payment_amount FLOAT NOT NULL
+CREATE TABLE Star.Stations (
+    station_id VARCHAR(50) PRIMARY KEY NONCLUSTERED NOT ENFORCED, 
+    station_name VARCHAR(75), 
+    station_latitude FLOAT, 
+    station_longitude FLOAT
 );

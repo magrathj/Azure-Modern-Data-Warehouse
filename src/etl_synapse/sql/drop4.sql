@@ -1,4 +1,4 @@
-IF OBJECT_ID(N'udacitysynapse.Star.TripDetails') IS NOT NULL
+IF OBJECT_ID(N'udacitysynapse.Star.Users') IS NOT NULL
     BEGIN
-    DROP TABLE Star.TripDetails
+    DROP TABLE Star.Users
     END

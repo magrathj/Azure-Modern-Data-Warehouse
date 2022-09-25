@@ -1,17 +1,8 @@
-INSERT INTO [star].[Trip]
+INSERT INTO [star].[TripDetails]
 SELECT DISTINCT
-    t.trip_id,
-    1,
-    ((DATEPART(hour, convert(DATETIME, start_at + ':00', 103)) * 3600) + (DATEPART(minute, convert(DATETIME, start_at + ':00', 103)) * 60) + DATEPART(second, convert(DATETIME, start_at + ':00', 103))),
-    Convert(INT, CONVERT(varchar(10), convert(DATE, t.start_at + ':00', 103), 112)),
-    ((DATEPART(hour, convert(DATETIME, t.ended_at + ':00', 103)) * 3600) + (DATEPART(minute, convert(DATETIME, t.ended_at + ':00', 103)) * 60) + DATEPART(second, convert(DATETIME, t.ended_at + ':00', 103))), 
-    Convert(INT, CONVERT(varchar(10), convert(DATE, t.ended_at + ':00', 103), 112)),
-    ((DATEPART(hour, convert(DATETIME, ended_at + ':00', 103)) * 3600) + (DATEPART(minute, convert(DATETIME, ended_at + ':00', 103)) * 60) + DATEPART(second, convert(DATETIME, ended_at + ':00', 103))) - ((DATEPART(hour, convert(DATETIME, start_at + ':00', 103)) * 3600) + (DATEPART(minute, convert(DATETIME, start_at + ':00', 103)) * 60) + DATEPART(second, convert(DATETIME, start_at + ':00', 103))),
-    r.rider_id
-FROM trips t
-JOIN riders r 
-ON t.rider_id = r.rider_id
-JOIN stations s1
-ON s1.station_id = t.start_station_id
-JOIN stations s2
-ON s2.station_id = t.end_station_id
+    station_id,
+    s.name,
+    s.latitude,
+    s.longitude
+FROM stations s
+

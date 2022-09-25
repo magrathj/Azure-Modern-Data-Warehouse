@@ -99,7 +99,7 @@ The goal of this project is to develop a data warehouse solution using Azure Syn
 ## Task 2: Design a star schema
 You are being provided a relational schema that describes the data as it exists in PostgreSQL. In addition, you have been given a set of business requirements related to the data warehouse. You are being asked to design a star schema using fact and dimension tables.
 
-![Star Schema](/images/star_schema_design.png)
+![Star Schema](/images/udacitysynapse_star.png)
 
 ## Task 3: Create the data in PostgreSQL
 To prepare your environment for this project, you first must create the data in PostgreSQL. This will simulate the production environment where the data is being used in the OLTP system. 
