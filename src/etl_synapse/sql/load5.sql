@@ -1,4 +1,4 @@
-INSERT INTO [star].[TripDetails]
+INSERT INTO [star].[Stations]
 SELECT DISTINCT
     station_id,
     s.name,

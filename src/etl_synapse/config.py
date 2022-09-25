@@ -39,13 +39,8 @@ load_scripts_config = [
 ]
 
 #Set db variables
-# driver='{ODBC Driver 17 for SQL Server}'
-# server='[HOSTNAME].sql.azuresynapse.net'
-# dbname='[DATABASE_NAME]'
-# user='[USER_NAME]'
-# password='[PASSWORD]'
 driver='{ODBC Driver 17 for SQL Server}'
-server='udacityprojectsynapse.sql.azuresynapse.net'
-dbname='udacitysynapse'
-user='sqladminuser'
-password='H@Sh1CoR3!'
+server='[HOSTNAME].sql.azuresynapse.net'
+dbname='[DATABASE_NAME]'
+user='[USER_NAME]'
+password='[PASSWORD]'
